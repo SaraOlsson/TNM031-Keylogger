@@ -68,6 +68,7 @@ class Calculator:
 		self.equation.set("")
 
 	def quit(self):
+		#print("quit")
 		self.gui.destroy()
 
 	def init_calculator(self):
@@ -167,6 +168,8 @@ class Calculator:
 		clear = Button(self.gui, text='Clear', fg='black', bg=bg_color,
 					command=self.clear, height=1, width=7)
 		clear.grid(row=5, column='1')
+
+		self.gui.bind('<Escape>', lambda e: self.gui.destroy())
 
 		# start the self.gui
 		self.gui.mainloop()
